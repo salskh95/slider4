@@ -55,7 +55,7 @@ function moveToNextSlide() {
 }
 
 function startLooping() {
-  intervalId = setInterval(moveToNextSlide, 800);
+  intervalId = setInterval(moveToNextSlide, 600);
 }
 
 function stopLooping() {
@@ -77,12 +77,12 @@ function updateCarousel(index) {
     currentItem.parentNode.removeChild(currentItem);
     carousel.appendChild(clone);
     nextItem.classList.add("active", "slidein-left");
-  }, 1000);
+  }, 500);
 
   setTimeout(() => {
     nextItem.classList.remove("slidein-left");
     currentIndex = nextIndex;
 
     carouselItems = document.querySelectorAll(".carousel-item");
-  }, 1000);
+  }, 500);
 }
