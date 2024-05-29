@@ -55,7 +55,7 @@ function moveToNextSlide() {
 }
 
 function startLooping() {
-  intervalId = setInterval(moveToNextSlide, 600);
+  intervalId = setInterval(moveToNextSlide, 500);
 }
 
 function stopLooping() {
