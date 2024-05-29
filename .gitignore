@@ -1,0 +1,29 @@
+ECHO is on.
+# Ignore node_modules directory (if using Node.js)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+desktop.ini
+
+# Ignore IDE and editor specific files
+.vscode/
+.idea/
+*.swp
+
+# Ignore any other build or temporary files
+dist/
+tmp/
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Ignore local environment configuration files
+.env
