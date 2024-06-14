@@ -27,21 +27,34 @@ function moveSlide(direction) {
   if (isTransitioning) return;
 
   isTransitioning = true;
+  let nextIndex;
 
-  const nextIndex =
-    direction === "left"
-      ? (slideIndex + 1) % slides.length
-      : (slideIndex - 1 + slides.length) % slides.length;
+  if (direction === "left") {
+    nextIndex = slideIndex + 1;
+    if (nextIndex >= slides.length) {
+      nextIndex = 0;
+    }
+  } else {
+    nextIndex = slideIndex - 1;
+    if (nextIndex < 0) {
+      nextIndex = slides.length - 1;
+    }
+  }
 
   const currentSlide = slides[slideIndex];
   const nextSlide = slides[nextIndex];
   let slideDirection = direction === "left" ? "left" : "right";
 
   currentSlide.classList.add(`slideout-${slideDirection}`);
+
   nextSlide.classList.add("active", `slidein-${slideDirection}`);
 
   setTimeout(() => {
     currentSlide.classList.remove("active", `slideout-${slideDirection}`);
+    isTransitioning = false;
+  }, 1000);
+
+  setTimeout(() => {
     nextSlide.classList.remove(`slidein-${slideDirection}`);
     isTransitioning = false;
   }, 1000);
@@ -55,7 +68,7 @@ function moveToNextSlide() {
 }
 
 function startLooping() {
-  intervalId = setInterval(moveToNextSlide, 500);
+  intervalId = setInterval(moveToNextSlide, 800);
 }
 
 function stopLooping() {
@@ -70,6 +83,7 @@ carousel.addEventListener("mouseleave", startLooping);
 function updateCarousel(index) {
   const clone = carouselItems[index].cloneNode(true);
   const currentItem = carouselItems[index];
+  console.log(index);
   const nextIndex = index++;
   const nextItem = carouselItems[nextIndex];
 
@@ -77,12 +91,12 @@ function updateCarousel(index) {
     currentItem.parentNode.removeChild(currentItem);
     carousel.appendChild(clone);
     nextItem.classList.add("active", "slidein-left");
-  }, 500);
+  }, 1000);
 
   setTimeout(() => {
     nextItem.classList.remove("slidein-left");
     currentIndex = nextIndex;
 
     carouselItems = document.querySelectorAll(".carousel-item");
-  }, 500);
+  }, 1000);
 }

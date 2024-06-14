@@ -68,39 +68,13 @@
   width: 100%;
 }
 
-.carousel-item {
+.item1,
+.item2,
+.item3,
+.item4,
+.item5 {
   width: calc(100% / 3);
   height: fit-content;
-}
-
-.carousel-item:hover {
-  opacity: 1;
-  transform: scale(1.8);
-}
-
-.carousel-item:not(:hover) {
-  opacity: 0.5;
-  transform: scale(1);
-}
-
-.carousel-item:hover .popup {
-  opacity: 1;
-  visibility: visible;
-}
-
-.popup {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, 10px);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
-  z-index: 999;
 }
 
 .item1 {
@@ -123,12 +97,19 @@
   background-color: rgb(255, 0, 212);
 }
 
+.active-item {
+  width: calc(100% / 2.5);
+  height: fit-content;
+  box-shadow: 10px 5px 5px black;
+}
+.inactive-item {
+  opacity: 0.5;
+}
+
 .prev-btn,
 .next-btn {
   width: 80px;
 }
-
-/* transitions */
 
 .active {
   z-index: 1;
