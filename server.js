@@ -23,16 +23,16 @@ const getAllFiles = (dirPath, arrayOfFiles) => {
   return arrayOfFiles;
 };
 
-// app.get('/images', (req, res) => {
-//   const h3Dir = path.join(__dirname, 'public/images/h3');
-//   const creaturesDir = path.join(h3Dir, 'creatures');
+app.get('/images', (req, res)=>{
+  const h3Dir = path.join(__dirname, 'public/images/h3');
+  const creaturesDir = path.join(h3Dir, 'creatures');
 
-//   const h3Images = fs.readdirSync(h3Dir)
-//     .filter(file => !fs.statSync(path.join(h3Dir, file)).isDirectory())
-//     .map(file => `images/h3/${file}`);
+  const h3Images = fs.readdirSync(h3Dir).filter(file=>!fs.statSync(h3Dir, file).isDirectory()).map(file=>`images/h3/${file}`);
+  const creaturesImages = fs.readdirSync(creaturesDir).map(file=>path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'))
+res.json({h3: h3Images, creatures: creaturesImages})
+})
 
-//   const creaturesImages = getAllFiles(creaturesDir)
-//     .map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
-
-//   res.json({ h3: h3Images, creatures: creaturesImages });
-// });
+app.listen(PORT, ()=>{
+  console.log('server is running on port 3000');
+  
+})

@@ -10,6 +10,14 @@ let isTransitioning = false;
 let currentIndex = 0;
 let intervalId;
 
+
+fetch('/images').then(res => res.json()).then(data =>{
+  const sliderImages = data.h3;
+  const carouselImages = data.creatures;
+  console.log(sliderImages, carouselImages);
+  
+})
+
 activeSlide.classList.add("active");
 
 nextButton.addEventListener("click", moveNext);
@@ -83,7 +91,7 @@ carousel.addEventListener("mouseleave", startLooping);
 function updateCarousel(index) {
   const clone = carouselItems[index].cloneNode(true);
   const currentItem = carouselItems[index];
-  console.log(index);
+
   const nextIndex = index++;
   const nextItem = carouselItems[nextIndex];
 
