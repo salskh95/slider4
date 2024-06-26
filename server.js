@@ -1,7 +1,6 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const serveStatic = require("serve-static");
 
 const app = express();
 const PORT = 3000;

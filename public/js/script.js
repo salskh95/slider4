@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function() {
 const slidesContainer = document.querySelector(".slides-container");
 const prevButton = document.querySelector(".prev-btn");
 const nextButton = document.querySelector(".next-btn");
@@ -14,14 +15,55 @@ let intervalId;
 fetch('/images').then(res => res.json()).then(data =>{
   const sliderImages = data.h3;
   const carouselImages = data.creatures;
-  console.log(sliderImages, carouselImages);
+  populateSlider(sliderImages);
+  populateCarousel(carouselImages);
+  console.log('data');
+  
+  
+}).catch(err => {
+  console.log('Error fetching images:', err);
   
 })
 
-activeSlide.classList.add("active");
-
 nextButton.addEventListener("click", moveNext);
 prevButton.addEventListener("click", movePrevious);
+
+function populateSlider(images){
+  const slidesContainer = document.querySelector('.slides-container');
+  slidesContainer.innerHTML = '';
+
+  images.forEach((imagePath)=>{
+    console.log(imagePath);
+    
+    const imgDiv = document.createElement('div');
+    imgDiv.classList.add('slide');
+    imgDiv.style.backgroundImage = `url(${imagePath})`;
+    slidesContainer.appendChild(imgDiv)
+  })
+
+  slides = slidesContainer.querySelectorAll('.slide');
+  slideIndex = 0;
+  activeSlide = slides[slideIndex];
+  activeSlide.classList.add('active')
+
+};
+
+function populateCarousel(images){
+  const carousel = document.querySelector('.carousel');
+  carousel.innerHTML = '';
+
+  images.forEach((imagePath)=>{
+    console.log(imagePath);
+    
+    const imgDiv = document.createElement('div');
+    imgDiv.classList.add('carousel-item');
+    imgDiv.style.backgroundImage = `url(${imagePath})`;
+    carousel.appendChild(imgDiv)
+  })
+
+  carouselItems = document.querySelectorAll('.carousel-item');
+  currentIndex = 0;
+};
 
 function moveNext() {
   moveSlide("left");
@@ -108,3 +150,4 @@ function updateCarousel(index) {
     carouselItems = document.querySelectorAll(".carousel-item");
   }, 1000);
 }
+});
