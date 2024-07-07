@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5500;
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -12,7 +12,7 @@ const getAllFiles = (dirPath, arrayOfFiles) => {
   arrayOfFiles = arrayOfFiles || [];
 
   files.forEach((file) => {
-    fullPath = path.join(dirPath, file);
+    const fullPath = path.join(dirPath, file);
     if (fs.statSync(fullPath).isDirectory()) {
       getAllFiles(fullPath, arrayOfFiles);
     } else {
@@ -22,16 +22,35 @@ const getAllFiles = (dirPath, arrayOfFiles) => {
   return arrayOfFiles;
 };
 
-app.get('/images', (req, res)=>{
+app.get('/images', (req, res) => {
+  console.log("Received request at /images");
   const h3Dir = path.join(__dirname, 'public/images/h3');
   const creaturesDir = path.join(h3Dir, 'creatures');
 
-  const h3Images = fs.readdirSync(h3Dir).filter(file=>!fs.statSync(h3Dir, file).isDirectory()).map(file=>`images/h3/${file}`);
-  const creaturesImages = fs.readdirSync(creaturesDir).map(file=>path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'))
-res.json({h3: h3Images, creatures: creaturesImages})
-})
+  let h3Images = [];
+  let creaturesImages = [];
 
-app.listen(PORT, ()=>{
-  console.log('server is running on port 3000');
+  try {
+    console.log('Reading h3 directory:', h3Dir);
+    
+    const h3Files = getAllFiles(h3Dir);
+    h3Images = h3Files.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
+
+    console.log('Reading creatures directory:', creaturesDir);
+    const creaturesFiles = getAllFiles(creaturesDir);
+    creaturesImages = creaturesFiles.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
   
-})
+    console.log('h3 images:', h3Images);
+    console.log('creatures images:', creaturesImages);
+    
+  } catch (error) {
+    console.error('Error reading files:', error);
+    return res.status(500).json({ error: 'Error reading files' });
+  }
+
+  res.json({ h3: h3Images, creatures: creaturesImages });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
