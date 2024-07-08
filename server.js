@@ -23,30 +23,14 @@ const getAllFiles = (dirPath, arrayOfFiles) => {
 };
 
 app.get('/images', (req, res) => {
-  console.log("Received request at /images");
   const h3Dir = path.join(__dirname, 'public/images/h3');
   const creaturesDir = path.join(h3Dir, 'creatures');
 
-  let h3Images = [];
-  let creaturesImages = [];
+  const h3Files = getAllFiles(h3Dir);
+  const h3Images = h3Files.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
 
-  try {
-    console.log('Reading h3 directory:', h3Dir);
-    
-    const h3Files = getAllFiles(h3Dir);
-    h3Images = h3Files.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
-
-    console.log('Reading creatures directory:', creaturesDir);
-    const creaturesFiles = getAllFiles(creaturesDir);
-    creaturesImages = creaturesFiles.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
-  
-    console.log('h3 images:', h3Images);
-    console.log('creatures images:', creaturesImages);
-    
-  } catch (error) {
-    console.error('Error reading files:', error);
-    return res.status(500).json({ error: 'Error reading files' });
-  }
+  const creaturesFiles = getAllFiles(creaturesDir);
+  const creaturesImages = creaturesFiles.map(file => path.relative(path.join(__dirname, 'public'), file).replace(/\\/g, '/'));
 
   res.json({ h3: h3Images, creatures: creaturesImages });
 });

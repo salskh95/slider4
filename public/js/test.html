@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<body>
+    <button id="fetchButton">fetch test</button>
+    <script>
+        document.getElementById('fetchButton').addEventListener('click', function(){
+            fetch('/images')
+            .then(res=>{
+                if(!res.ok){
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            }).then(data=>{
+                console.log('Images data:', data);
+                alert('Data fetched successfully! Check console for data.')
+            }).then(error=>{
+                console.log('Error fetching images:', error);
+                alert('Error fetching images! Check console for details.')
+                
+            })
+        })
+    </script>
+</body>
+</html>
